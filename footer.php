@@ -1,15 +1,6 @@
-
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <title>Ytron Hosting</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="David Pintado">    
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> 
-        <link rel="stylesheet" type="text/css" href="css/estilos.css">
-    </head>
+<!-- Eliminamos las etiquetas de apertura body y html porque ya se encuentran en la cabecera-->
     
+<!-- Esta página es de libre acceso para usuarios no logueados -->
 
     <body class="layout-body">
 
@@ -30,7 +21,7 @@
                     </div>
 
                     <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-                        <h5 class="text-uppercase mb-4 font-weight-bold">Síguenos</h5>
+                        <h5 class="text-uppercase mb-4 font-weight-bold">Nuestras redes sociales</h5>
                         <p>
                             <a href="#" class="btn btn-outline-light btn-sm me-2">Twitter</a>
                             <a href="#" class="btn btn-outline-light btn-sm">YouTube</a>

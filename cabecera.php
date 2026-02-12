@@ -1,12 +1,10 @@
 <?php
     session_start();
 
-    // Si no existe la variable de sesión usuario, redirigimos a login
-    if (!isset($_SESSION['usuario'])) {
-        header("Location: login.php");
-        exit();
-    }
 ?>
+
+<!-- Esta página es de libre acceso para usuarios no logueados -->
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -16,30 +14,53 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="author" content="David Pintado">    
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> 
-        <link rel="stylesheet" type="text/css" href="css/estilos.css">
+        <link rel="stylesheet" type="text/css" href="css/estilos.css?v=1.1"> <!-- Esto fuerza la actualización del navegador para actualizar los estilos y así evitar problemas con la caché -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Librería externa que transforma los mensajes del navegador el ventanas emergentes -->
     </head>
 
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 shadow-sm">
             <div class="container-fluid">
 
-                <a class="navbar-brand" href="index.php">
-                    <img src="Logo.png" alt="Ytron Logo" style="height: 50px; width: auto;">
-                </a>                
+                <a class="navbar-brand" href="home.php">
+                    <img src="imagenes/Logo.png" class="cabecera-logo" alt="Ytron Logo">
+                </a>      
+                
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-3 gap-3"> 
+                    <li class="nav-item">
+                        <a class="nav-link nav-custom" href="planes.php">Planes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-custom" href="sobre_nosotros.php">Sobre nosotros</a>
+                    </li>
+                </ul>  
 
 
-                <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="collapse navbar-collapse" id="navbarNav">  <!-- Si el usuario no inicia sesion en la web, muestra los botones para que lo haga y varias pestañas que si puede consultar. Si lo está, le da la bienvenida y muestra el boton de perfil y cerrar sesión. Y si inicia el admin puede ver el panel de gestión -->
                     <div class="d-flex align-items-center ms-auto">
-                        <span class="me-3 text-secondary">
-                            Bienvenido, <strong><?php echo htmlspecialchars($_SESSION['nombre'] ?? 'Usuario'); ?></strong>
-                        </span>
-                        <a href="logout.php" class="btn btn-outline-danger btn-sm">Cerrar Sesión</a>
+                        <?php if (isset($_SESSION['usuario'])): ?>
+                            <span class="me-2 text-secondary">
+                                Bienvenido, <strong><?php echo htmlspecialchars($_SESSION['nombre']); ?></strong>
+                            </span>
+
+                            <?php if (isset($_SESSION['es_admin']) && $_SESSION['es_admin'] == 1): ?>
+                                <a href="index.php" class="btn btn-warning btn-sm me-2 shadow-sm">Panel de Gestión</a>
+                            <?php endif; ?>
+
+                            <a href="perfil.php" class="btn btn-outline-secondary btn-sm me-2">
+                                Perfil de <?php echo htmlspecialchars($_SESSION['nombre']); ?>
+                            </a>
+
+                            <a href="logout.php" class="btn btn-outline-danger btn-sm">Cerrar Sesión</a>
+
+                        <?php else: ?>
+                            <a href="login.php?from=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>" class="btn btn-outline-primary btn-sm me-2">Iniciar Sesión</a>  <!-- Guarda en una variable (from) el lugar en el que se encuentra el usuario y lo redirige a login -->
+                            <a href="registro.php?from=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>" class="btn btn-primary btn-sm">Regístrate</a>   <!-- Guarda en una variable (from) el lugar en el que se encuentra el usuario y lo redirige a login -->
+                        <?php endif; ?>
                     </div>
                 </div>
-
             </div>
         </nav>
 
         <div class="container"> <!-- Necesario para el tema de cuadrar la visualización de la pagina con css -->
-    </body>
-</html>
+<!-- Eliminamos las etiquetas de cierre body y html porque ya se encuentran en el footer-->

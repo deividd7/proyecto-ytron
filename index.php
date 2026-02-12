@@ -6,6 +6,14 @@
 
 
 
+    
+    //Método de doble seguridad, primer bloqueo a usuarios no logueados y segundo bloqueo a usuarios sin permisos admin
+    //Inicio de sesión del usuario, si no ha iniciado sesión, te redirige a login. Impide que usuarios no logueados puedan acceder
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: login.php");
+        exit();
+    }
+
     //protección de la página, si el usuario no es admin, se le redirige a home.php
     if (!isset($_SESSION['es_admin']) || $_SESSION['es_admin'] != 1) {
         header("Location: home.php?error=acceso_denegado");
@@ -23,73 +31,105 @@
 ?>
 
 
+<!-- Eliminamos las etiquetas de apertura y cierre de body y html porque ya se encuentran en la cabecera y el footer-->
 
 
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <title>Índice Principal</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="David Pintado">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="css/estilos.css">
-    </head>
 
-    <body class="layout-body">
+<div class="d-flex justify-content-between align-items-center mb-3">
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Listado de Planes de Hosting</h2>
+    
+    <a href="nuevo_plan.php" class="btn btn-success">+ Crear Nuevo Plan</a>
 
-            <h2>Listado de Planes de Hosting</h2>
-            
-            <a href="nuevo_plan.php" class="btn btn-success">+ Crear Nuevo Plan</a>
+</div>
 
-        </div>
-
-        <table class="table table-striped table-hover mt-4">
-            <thead class="table-dark">
+<table class="table table-striped table-hover mt-4">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre del Plan</th>
+            <th>Precio (€)</th>
+            <th>RAM (MB)</th>
+            <th>CPU (Cores)</th>
+            <th>Acciones</th> 
+        </tr>
+    </thead>
+    
+    <tbody>
+        <?php if (mysqli_num_rows($resultado) > 0): ?>
+            <?php while ($p = mysqli_fetch_assoc($resultado)): ?>
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre del Plan</th>
-                    <th>Precio (€)</th>
-                    <th>RAM (MB)</th>
-                    <th>CPU (%)</th>
-                    <th>Acciones</th> 
+
+                    <td><?php echo $p['id']; ?></td>
+                    <td><?php echo htmlspecialchars($p['nombre']); ?></td>
+                    <td><?php echo htmlspecialchars($p['precio']); ?> €</td>
+                    <td><?php echo htmlspecialchars($p['ram_mb']); ?></td>
+                    <td><?php echo htmlspecialchars($p['cpu_pct']); ?></td>
+                    
+                    <td>
+                        <a href="editar_plan.php?id=<?php echo $p['id']; ?>" class="btn btn-warning btn-sm">Editar</a>
+                        
+                        <!-- Boton Borrar, que hace uso de la ventana emergente de la librería que hemos añadido en cabecera.php -->
+                        <a href="javascript:void(0);"   
+                            class="btn btn-danger btn-sm" 
+                            onclick="confirmarEliminacion(<?php echo $p['id']; ?>)">
+                            Borrar
+                        </a>
+                    </td>
+
                 </tr>
-            </thead>
-            
-            <tbody>
-                <?php if (mysqli_num_rows($resultado) > 0): ?>
-                    <?php while ($p = mysqli_fetch_assoc($resultado)): ?>
-                        <tr>
-
-                            <td><?php echo $p['id']; ?></td>
-                            <td><?php echo htmlspecialchars($p['nombre']); ?></td>
-                            <td><?php echo htmlspecialchars($p['precio']); ?></td>
-                            <td><?php echo htmlspecialchars($p['ram_mb']); ?></td>
-                            <td><?php echo htmlspecialchars($p['cpu_pct']); ?></td>
-                            
-                            <td>
-                                <a href="editar_plan.php?id=<?php echo $p['id']; ?>" class="btn btn-warning btn-sm">Editar</a>
-                                
-                                <a href="borrar_plan.php?id=<?php echo $p['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que quieres eliminar este plan?')">Borrar</a>
-                            </td>
-
-                        </tr>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="6" class="text-center">No hay planes creados aún.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="6" class="text-center">No hay planes creados aún.</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
 
 
-        <?php 
-            mysqli_close($conexion);
-            include 'footer.php';
-        ?>
-        
-    </body>
-</html>
+
+<script>    //script de control de la ventana emergente, detecta el click y frena el borrado preguntando antes si estas seguro
+    function confirmarEliminacion(id) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Estás a punto de eliminar el plan ID: " + id,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'blue',
+            cancelButtonColor: 'red',
+            confirmButtonText: 'Sí, borrar plan',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //Si el usuario hace clic en el botón azul, se redirige a borrar_plan.php y se elimina el plan
+                window.location.href = "borrar_plan.php?id=" + id;
+            }
+        })
+    }
+</script>
+
+
+<script>   //script de control de la ventana emergente, lee la URL buscando "?creado=exito" para mostrar la ventana
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    if (urlParams.get('creado') === 'exito') {
+        Swal.fire({
+            title: '¡Plan Creado!',
+            text: 'El nuevo plan de hosting se ha guardado correctamente.',
+            icon: 'success',
+            confirmButtonColor: '#0d6efd',
+            confirmButtonText: 'Genial'
+        }).then(() => {
+            //Esto limpia la URL para que no salga el mensaje al recargar
+            window.history.replaceState({}, document.title, window.location.pathname);
+        });
+    }
+</script>
+
+<?php 
+    mysqli_close($conexion);
+    include 'footer.php';
+?>
+

@@ -1,6 +1,8 @@
+/* Estilos para cuadrar la cabecera y el footer con el contenido de la página */
 html, body {
     height: 100%;
     margin: 0;
+    background-color: rgb(235, 234, 234);
 }
 
 .layout-body {
@@ -14,4 +16,131 @@ html, body {
 
 .main-footer {
     flex-shrink: 0;
+}
+
+
+
+.cabecera-logo {
+    height: 50px; 
+    width: auto;
+}
+
+
+/* Estilos de la cabecera */
+.nav-item {
+    color: black;
+    font-weight: 500;
+    padding: 0.5rem 1.5rem; 
+}
+
+
+
+/* Estilos de home.php */
+.texto2 {
+    color: rgba(0, 123, 255);
+}
+
+.home-principal {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url("../imagenes/fondo-titulo.png") center/cover;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    border-radius: 25px;
+}
+
+
+
+.home-boton {
+    transition: 0.3s;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+.home-boton:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 123, 255, 0.4);
+}
+
+
+
+.home-tarjeta {
+    transition: all 0.3s ease-in-out;
+    border-radius: 15px;
+    background-color: rgb(26, 29, 32);
+    color: white;
+    margin-top: 50px;
+    
+}
+
+.home-tarjeta:hover {
+    transform: translateY(-10px);
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+.home-imagen {
+    height: auto;
+    width: auto;
+}
+
+
+
+.home-comunidad {
+    margin-top: 50px;
+}
+
+
+.comunidad-ul {
+    list-style-type: none;
+}
+
+.comunidad-imagen {
+    height: 450px;
+    width: auto;
+    border-radius: 15px;
+}
+
+.comunidad-texto {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.comunidad-li {
+    margin-top: 50px;
+    transition: all 0.3s ease-in-out;
+    border-radius: 15px;
+    background-color: rgb(26, 29, 32);
+    color: white;
+}
+
+.comunidad-li:hover {
+    transform: translateY(-10px);
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+
+
+
+
+/* Estilos de planes.php */
+.plan-tarjeta {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 15px;
+    background-color: white;
+    
+
+}
+
+.plan-tarjeta:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+}
+
+.plan-tarjeta-header {
+    border-radius: 13px;
+
+}
+
+.plan-tarjeta-body {
+    margin: 20px;
 }

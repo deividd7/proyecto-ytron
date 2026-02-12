@@ -1,6 +1,9 @@
 <?php
     $mensaje = "";
 
+    //Página donde se registra por primera vez y por lo tanto de libre acceso
+
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nombre = $_POST['nombre'] ?? ''; 
         $email = $_POST['email'] ?? '';
@@ -9,16 +12,16 @@
         if (!empty(trim($email)) && !empty(trim($pass))) {
             $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
 
-            // Seguridad 1: Ciframos la contraseña (creamos la huella)
+            //Cifrado de la contraseña: Ciframos la contraseña (creamos la huella, el hash)
             $pass_segura = password_hash($pass, PASSWORD_DEFAULT);
 
-            // Seguridad 2: Sentencia preparada para evitar inyecciones SQL
+            //Sentencia preparada para evitar inyecciones SQL
             $sql = "INSERT INTO usuario (nombre, email, password) VALUES (?, ?, ?)";
             $stmt = mysqli_prepare($conexion, $sql);
             mysqli_stmt_bind_param($stmt, "sss", $nombre, $email, $pass_segura);
 
             if (mysqli_stmt_execute($stmt)) {
-                // ÉXITO: Redirigimos al login con un aviso
+                //Redirigimos al login con un aviso
                 header("Location: login.php?registro=exito");
                 exit();
             } else {

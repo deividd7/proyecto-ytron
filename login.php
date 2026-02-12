@@ -3,7 +3,9 @@
     $error = "";
     $exito = "";
 
-    // Verificamos si el usuario viene de crear una cuenta
+    //Página donde el usuario inicia sesión y por lo tanto de libre acceso
+
+    //Verificamos si el usuario viene de crear una cuenta
     if (isset($_GET['registro']) && $_GET['registro'] == 'exito') {
         $exito = "¡Registro completado! Ya puedes iniciar sesión.";
     }
@@ -12,13 +14,14 @@
         $email = $_POST['email'] ?? ''; 
         $pass = $_POST['password'] ?? '';
 
-        // Conexión a la BD
+        //Conexión a la BD
         $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
 
 
-        // Consulta
-        // Usamos Sentencias Preparadas para evitar SQL Injection
-        $consulta = "SELECT id, nombre, email, password FROM usuario WHERE email = ?";
+        //Consulta
+        //Usamos Sentencias Preparadas para evitar SQL Injection
+        $consulta = "SELECT id, nombre, email, password, admin FROM usuario WHERE email = ?";
+
         $stmt = mysqli_prepare($conexion, $consulta);
         mysqli_stmt_bind_param($stmt, "s", $email);
         mysqli_stmt_execute($stmt);
@@ -33,8 +36,20 @@
                 $_SESSION['usuario_id'] = $fila['id']; //Guardamos también el ID por si acaso
                 $_SESSION['nombre'] = $fila['nombre']; //Guardamos también el nombre
                 $_SESSION['es_admin'] = $fila['admin']; //Guardamos el booleano admin en la sesion (esto permitira el acceso o no a ciertas partes de la web)
-                header("Location: index.php"); 
+               // header("Location: home.php");   //Al iniciar sesión nos redirigirá por defecto a home.php
+
+                //Mecanismo de persistencia. Redirección dinámica, recibe la variable (from) que almacena el lugar en el que se encontraba el usuario antes de iniciar sesión
+                if (isset($_GET['from'])) {
+                    //Si existe el parámetro, lo saneamos y redirigimos allí
+                    $destino = $_GET['from'];
+                } else {
+                    //Si no existe, le redirigimos a home.php
+                    $destino = "home.php";
+                }
+        
+                header("Location: " . $destino);
                 exit();
+
             } else {
                 $error = "Credenciales incorrectas";
             }
@@ -63,7 +78,7 @@
             <?php if ($error) echo "<div class='alert alert-danger'>$error</div>"; ?>
             <?php if ($exito) echo "<div class='alert alert-success'>$exito</div>"; ?>
             
-            <form action="login.php" method="POST">
+            <form action="login.php<?php echo isset($_GET['from']) ? '?from=' . urlencode($_GET['from']) : ''; ?>" method="POST">  <!-- Mecanismo de persistencia, guarda la variable en la que se ha almacenado de donde venía el usuario y lo redirige allí-->
 
                 <div class="mb-3">
                     <label>Email</label>

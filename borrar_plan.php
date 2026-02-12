@@ -8,12 +8,23 @@
         exit();
     }
 
+
+    //Método de doble seguridad, primer bloqueo a usuarios no logueados y segundo bloqueo a usuarios sin permisos admin
+    //Inicio de sesión del usuario, si no ha iniciado sesión, te redirige a login. Impide que usuarios no logueados puedan acceder
+    session_start();
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: login.php");
+        exit();
+    }
+
     //protección de la página, si el usuario no es admin, se le redirige a home.php
     if (!isset($_SESSION['es_admin']) || $_SESSION['es_admin'] != 1) {
         header("Location: home.php?error=acceso_denegado");
         exit();
     }
 
+
+    
     $id = $_GET['id'] ?? '';
 
     if (!empty($id)) {
