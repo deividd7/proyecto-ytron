@@ -50,7 +50,7 @@
 
         if (mysqli_stmt_execute($stmt)) {
             mysqli_close($conexion);
-            header("Location: index.php");
+            header("Location: index.php?editado=exito");   //Le añadimos la terminación "?editado=exito" para que se guarde en la url (para poder mostrar la ventana emergenete)
             exit();
         } else {
             $error = "Error al actualizar: " . mysqli_error($conexion);

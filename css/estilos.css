@@ -34,10 +34,20 @@ html, body {
 }
 
 
+.footer-botones {
+    margin-bottom: 10px;
+}
+
+.footer-redes img {
+    height: 30px;
+    width: 30px;
+}
+
 
 /* Estilos de home.php */
 .texto2 {
     color: rgba(0, 123, 255);
+    font-weight: bold;
 }
 
 .home-principal {
@@ -96,7 +106,7 @@ html, body {
 
 .comunidad-imagen {
     height: 450px;
-    width: auto;
+    width: 770px;
     border-radius: 15px;
 }
 
@@ -143,4 +153,72 @@ html, body {
 
 .plan-tarjeta-body {
     margin: 20px;
+}
+
+
+
+
+
+/* Estilos de sobre_nosotros.php */
+
+.nosotros-principal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    background-color: rgb(26, 29, 32);
+    border-radius: 25px;
+    margin-bottom: 50px;
+}
+
+.nosotros-principal-texto {
+    max-width: 800px;
+}
+
+
+
+
+.nosotros-comunidad-ul {
+    list-style-type: none;
+}
+
+
+.nosotros-comunidad-li {
+    margin-top: 50px;
+    transition: all 0.3s ease-in-out;
+    border-radius: 15px;
+    background-color: white;
+    color: black;
+}
+
+.nosotros-comunidad-li:hover {
+    transform: translateY(-10px);
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+
+.nosotros-tarjeta {
+    transition: all 0.3s ease-in-out;
+    border-radius: 15px;
+    background-color: rgb(26, 29, 32);
+    color: white;
+    margin-top: 50px;
+    
+}
+
+.nosotros-tarjeta:hover {
+    transform: translateY(-10px);
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+
+
+/* Estilos de registro.php */
+.perfil-boton {
+    transition: all 0.3s ease-in-out;
+}
+
+.perfil-boton:hover {
+    transform: translateY(-5px);
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1) !important;
 }

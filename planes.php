@@ -4,9 +4,8 @@
     //Conexión a ytronhosting
     $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
 
-    // 2. Preparar la sentencia (Sentencia Preparada)
-    // Aunque aquí no hay variables externas, esta es la estructura profesional:
-    $sql = "SELECT nombre, precio, ram_mb, cpu_pct FROM plan";
+    //Preparar la sentencia, en esta no hay problema porque solo extrae y muestra informacion de la bd
+    $sql = "SELECT id, nombre, precio, ram_mb, cpu_pct FROM plan";
     $stmt = mysqli_prepare($conexion, $sql);
 
     // Ejecutar la sentencia
@@ -52,7 +51,7 @@
                             <li class="mb-2">
                                 <p>
                                     <strong>CPU:</strong> <?php echo $plan['cpu_pct']; ?> Cores
-                                <p>
+                                </p>
                             </li>
                             <li class="mb-2">
                                 <p>
@@ -68,7 +67,18 @@
                             </li>
                         </ul>
                         
-                        <button type="button" class="w-100 btn btn-lg btn-outline-primary mt-auto">Seleccionar Plan</button>
+                        <form action="perfil.php" method="POST">    <!-- Se utiliza un array multidimensional dentro de la variable global ($_SESSION) para almacenar de forma persistente y temporal los datos de los planes (ID, nombre y precio) que el usuario selecciona -->
+                            <input type="hidden" name="plan_id" value="<?php echo $plan['id']; ?>">
+                            
+                            <input type="hidden" name="nombre_plan" value="<?php echo htmlspecialchars($plan['nombre']); ?>">
+                            
+                            <input type="hidden" name="precio_plan" value="<?php echo $plan['precio']; ?>">
+                            
+                            <button type="submit" name="agregar_plan" class="w-100 btn btn-lg btn-outline-primary mt-auto">
+                                Seleccionar Plan
+                            </button>
+                        </form>                
+                    
                     </div>
                 </div>
             </div>
@@ -78,6 +88,28 @@
 
 
 
+<!-- script de control de la ventana emergente, lee la URL buscando "?añadido=exito" para mostrar la ventana --> 
+<?php if (isset($_GET['añadido']) && $_GET['añadido'] == 'exito'): ?>
+<script>
+    Swal.fire({
+        title: "¡Plan Seleccionado!",
+        text: "El plan se ha añadido a tu carrito correctamente.",
+        icon: "success",
+        showConfirmButton: true,
+        confirmButtonColor: "blue",
+        confirmButtonText: "Ver mi carrito",
+        showCancelButton: true,
+        cancelButtonText: "Seguir mirando",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "perfil.php";
+        }
+        //Limpiamos la URL para que el mensaje no se repita al refrescar manualmente
+        window.history.replaceState({}, document.title, window.location.pathname);
+    });
+</script>
+<?php endif; ?>
 
 
 <?php 

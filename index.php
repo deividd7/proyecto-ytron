@@ -119,10 +119,26 @@
             title: '¡Plan Creado!',
             text: 'El nuevo plan de hosting se ha guardado correctamente.',
             icon: 'success',
-            confirmButtonColor: '#0d6efd',
+            confirmButtonColor: 'blue',
             confirmButtonText: 'Genial'
         }).then(() => {
             //Esto limpia la URL para que no salga el mensaje al recargar
+            window.history.replaceState({}, document.title, window.location.pathname);
+        });
+    }
+</script>
+
+
+<script>   //script de control de la ventana emergente, lee la URL buscando "?editado=exito" para mostrar la ventana
+    if (urlParams.get('editado') === 'exito') {
+        Swal.fire({
+            title: '¡Actualizado!',
+            text: 'Los cambios en el plan se han guardado correctamente.',
+            icon: 'success',
+            confirmButtonColor: 'blue',
+            confirmButtonText: 'Entendido'
+        }).then(() => {
+            //Limpia la URL para evitar que el mensaje se repita al refrescar
             window.history.replaceState({}, document.title, window.location.pathname);
         });
     }

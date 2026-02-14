@@ -2,7 +2,6 @@
     
 <!-- Esta página es de libre acceso para usuarios no logueados -->
 
-    <body class="layout-body">
 
 
         </div><footer class="bg-dark text-white pt-5 pb-4 mt-5 main-footer">
@@ -20,11 +19,20 @@
                         <p><a href="#" class="text-white text-decoration-none">Privacidad</a></p>
                     </div>
 
-                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <div class="footer-redes col-lg-3 col-xl-3 mx-auto mt-3">
                         <h5 class="text-uppercase mb-4 font-weight-bold">Nuestras redes sociales</h5>
                         <p>
-                            <a href="#" class="btn btn-outline-light btn-sm me-2">Twitter</a>
-                            <a href="#" class="btn btn-outline-light btn-sm">YouTube</a>
+                            <div class="footer-botones">
+                                <a href="#" class="btn btn-outline-light btn-sm me-2">Twitter</a>
+                                <img src="imagenes/twitter.png" alt="Twitter">
+                            </div>
+
+                            <div  class="footer-botones">
+                                <a href="#" class="btn btn-outline-light btn-sm">YouTube</a>
+                                <img src="imagenes/youtube.png" alt="Youtube">
+                            </div>
+
+
                         </p>
                     </div>
                 </div>

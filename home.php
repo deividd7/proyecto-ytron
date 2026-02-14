@@ -9,21 +9,7 @@
 
 
 <div class="contenedorHome">
-    <?php 
-        // Comprobamos si el usuario fue redirigido aquí por falta de permisos (aqui se hará la prueba para comprobar los permisos de los usuarios)
-        if (isset($_GET['error']) && $_GET['error'] == 'acceso_denegado'): 
-    ?>
-
-    <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
-        <strong>¡Acceso denegado!</strong> No tienes permisos de administrador para entrar en esa sección.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
-    <?php endif; ?>
-
-
-
-
+    
     <section class="home-principal bg-dark text-white text-center py-5 shadow-lg">
         <div class="container py-5"> 
             <h1 class="display-4 fw-bold home-title">Domina tu propio mundo con <span class="texto2">Ytron Hosting</span></h1>
@@ -73,20 +59,20 @@
                     <p class="comunidad-texto">Minecraft es mucho más que un juego de cubos; es un lienzo infinito...<br>
                     Nuestros servidores soportan tanto <strong>Java Edition</strong> como <strong>Bedrock</strong>.</p>
                     <ul class="comunidad-ul">
-                        <li class="comunidad-li h-100 border-0 shadow-sm p-4 mb-3 rounded">
+                        <li class="comunidad-li h-100 border-0 shadow-sm p-4 mb-3">
                             <strong>Compatibilidad Total:</strong> Soporte nativo para Java Edition y Bedrock (Geyser).
                         </li>
-                        <li class="comunidad-li h-100 border-0 shadow-sm p-4 mb-3 rounded">
+                        <li class="comunidad-li h-100 border-0 shadow-sm p-4 mb-3">
                             <strong>Panel Intuitivo:</strong> Gestiona tus archivos, consola y backups con un solo clic.
                         </li>
-                        <li class="comunidad-li h-100 border-0 shadow-sm p-4 mb-3 rounded">
+                        <li class="comunidad-li h-100 border-0 shadow-sm p-4 mb-3">
                             <strong>Escalabilidad:</strong> ¿Tu comunidad creció? Sube de plan al instante sin perder tus datos.
                         </li>
                     </ul>
                 </div>
 
                 <div class="col-lg-6 text-center">
-                    <img src="imagenes/mine-comunidad.png" class="comunidad-imagen" alt="Minecraft foto">
+                    <img src="imagenes/mine-comunidad2.png" class="comunidad-imagen" alt="Minecraft foto">
                 </div>
             </div>
         </div>
@@ -94,6 +80,28 @@
 
 </div>
 
+
+
+<!-- Conrtol de los permisos y ventana de error emergente -->
+<!-- (Como tras saltar el error de permisos nos redirige a esta pagina, no hace falta que pongamos este script en todas las demás, ya que al ser redirigidos aqui, saltará la ventana emergente) --> 
+<?php 
+    //Comprobamos si el usuario fue redirigido aquí por falta de permisos (aqui se hará la prueba para comprobar los permisos de los usuarios)
+    if (isset($_GET['error']) && $_GET['error'] == 'acceso_denegado'): 
+?>
+
+<script>     //script de control de la ventana emergente, lee la URL buscando "?error=acceso_denegado" para mostrar la ventana
+    Swal.fire({
+        title: "¡Acceso Restringido!",
+        text: "No tienes permisos de administrador para acceder a esa sección.",
+        icon: "error",
+        confirmButtonColor: "blue", 
+        confirmButtonText: "Entendido"
+    }).then(() => {
+        // Limpiamos la URL para que no vuelva a salir si recargas la página
+        window.history.replaceState({}, document.title, window.location.pathname);
+    });
+</script>
+<?php endif; ?>
 
 
 <?php 

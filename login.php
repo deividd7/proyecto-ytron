@@ -1,7 +1,7 @@
 <?php
     session_start();
-    $error = "";
-    $exito = "";
+    $error = "";    //Utilizado para la venta emergente de error por credenciales no válidas
+    $exito = "";    //Utilizado para la venta emergente de exito al inciaria sesión
 
     //Página donde el usuario inicia sesión y por lo tanto de libre acceso
 
@@ -69,18 +69,17 @@
         <meta name="author" content="David Pintado">       
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> 
         <link rel="stylesheet" type="text/css" href="css/estilos.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Librería externa que transforma los mensajes del navegador el ventanas emergentes -->
     </head>
 
+
     <body class="d-flex justify-content-center align-items-center vh-100 bg-light">
-        <div class="card p-4 shadow" style="width: 300px;">
+        <div class="card p-4 shadow" style="width: 350px;">
             <h2 class="text-center mb-4">Acceso</h2>
-
-            <?php if ($error) echo "<div class='alert alert-danger'>$error</div>"; ?>
-            <?php if ($exito) echo "<div class='alert alert-success'>$exito</div>"; ?>
             
-            <form action="login.php<?php echo isset($_GET['from']) ? '?from=' . urlencode($_GET['from']) : ''; ?>" method="POST">  <!-- Mecanismo de persistencia, guarda la variable en la que se ha almacenado de donde venía el usuario y lo redirige allí-->
+            <form action="login.php<?php echo isset($_GET['from']) ? '?from=' . urlencode($_GET['from']) : ''; ?>" method="POST">
 
-                <div class="mb-3">
+            <div class="mb-3">
                     <label>Email</label>
                     <input type="email" name="email" class="form-control" required>
                 </div>
@@ -95,12 +94,40 @@
                     <input type="password" name="password" class="form-control" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                <button type="submit" class="btn btn-primary w-100 shadow-sm">Entrar</button>
+                
                 <div class="text-center mt-3">
                     <a href="registro.php" class="text-decoration-none">¿No tienes cuenta? Regístrate</a>
                 </div>
-
             </form>
         </div>
+
+
+
+
+        <script>   //script de control de la ventana emergente, si hay un error en el php, mostramos esta ventana emergente
+            document.addEventListener('DOMContentLoaded', function() {
+                <?php if ($error): ?>
+                    Swal.fire({
+                        title: '¡Error de acceso!',
+                        text: '<?php echo $error; ?>',
+                        icon: 'error',
+                        confirmButtonColor: '#0d6efd',
+                        confirmButtonText: 'Intentar de nuevo'
+                    });
+                <?php endif; ?>
+
+                //si hay un mensaje exitoso indicando el correcto inicio de sesión, emerge esta pantalla
+                <?php if ($exito): ?>
+                    Swal.fire({
+                        title: '¡Bienvenido!',
+                        text: '<?php echo $exito; ?>',
+                        icon: 'success',
+                        confirmButtonColor: '#198754',
+                        confirmButtonText: 'Genial'
+                    });
+                <?php endif; ?>
+            });
+        </script>
     </body>
 </html>
