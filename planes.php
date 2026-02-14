@@ -4,7 +4,7 @@
     //Conexión a ytronhosting
     $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
 
-    //Preparar la sentencia, en esta no hay problema porque solo extrae y muestra informacion de la bd
+    //Preparar la sentencia, evitando inyecciones SQL
     $sql = "SELECT id, nombre, precio, ram_mb, cpu_pct FROM plan";
     $stmt = mysqli_prepare($conexion, $sql);
 

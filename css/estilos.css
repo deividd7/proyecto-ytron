@@ -213,12 +213,37 @@ html, body {
 
 
 
-/* Estilos de registro.php */
+/* Estilos de perfil.php */
 .perfil-boton {
     transition: all 0.3s ease-in-out;
 }
 
 .perfil-boton:hover {
     transform: translateY(-5px);
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+
+
+/* Estilos de factura.php */
+.factura-boton {
+    transition: all 0.3s ease-in-out;
+}
+
+.factura-boton:hover {
+    transform: translateY(-5px);
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+
+
+
+/* Estilos de index.php */
+.index-boton {
+    transition: all 0.3s ease-in-out;
+}
+
+.index-boton:hover {
+    transform: translateY(-3px);
     box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1) !important;
 }

@@ -39,7 +39,7 @@
 
     <h2>Listado de Planes de Hosting</h2>
     
-    <a href="nuevo_plan.php" class="btn btn-success">+ Crear Nuevo Plan</a>
+    <a href="nuevo_plan.php" class="btn btn-success index-boton">+ Crear Nuevo Plan</a>
 
 </div>
 
@@ -67,11 +67,11 @@
                     <td><?php echo htmlspecialchars($p['cpu_pct']); ?></td>
                     
                     <td>
-                        <a href="editar_plan.php?id=<?php echo $p['id']; ?>" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="editar_plan.php?id=<?php echo $p['id']; ?>" class="btn btn-warning btn-sm index-boton">Editar</a>
                         
                         <!-- Boton Borrar, que hace uso de la ventana emergente de la librería que hemos añadido en cabecera.php -->
                         <a href="javascript:void(0);"   
-                            class="btn btn-danger btn-sm" 
+                            class="btn btn-danger btn-sm index-boton" 
                             onclick="confirmarEliminacion(<?php echo $p['id']; ?>)">
                             Borrar
                         </a>

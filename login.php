@@ -32,11 +32,11 @@
         if ($fila = mysqli_fetch_assoc($resultado)) {
 
             if (password_verify($pass, $fila['password'])) {   //Graba la contraseña "cifrada" por asi decirlo (la huella, el hash) en la bd y en el proximo login solo lo compara y deja aacceder o no
+                session_regenerate_id(true);   //Regeneración de ID de Sesión, evita que un atacante consigue el ID de sesión de un usuario antes de que se loguee y así secuestre su sesión
                 $_SESSION['usuario'] = $fila['email']; //Guardamos el email en la sesión
                 $_SESSION['usuario_id'] = $fila['id']; //Guardamos también el ID por si acaso
                 $_SESSION['nombre'] = $fila['nombre']; //Guardamos también el nombre
                 $_SESSION['es_admin'] = $fila['admin']; //Guardamos el booleano admin en la sesion (esto permitira el acceso o no a ciertas partes de la web)
-               // header("Location: home.php");   //Al iniciar sesión nos redirigirá por defecto a home.php
 
                 //Mecanismo de persistencia. Redirección dinámica, recibe la variable (from) que almacena el lugar en el que se encontraba el usuario antes de iniciar sesión
                 if (isset($_GET['from'])) {

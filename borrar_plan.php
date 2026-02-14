@@ -1,6 +1,6 @@
 <?php
 
-    // A esta página unicamente tendrá acceso el ADMIN (porque es una pagina de edición)
+    // A esta página unicamente tendrá acceso el ADMIN (porque es una pagina de borrado)
 
     session_start();
     if (!isset($_SESSION['usuario'])) {
@@ -24,7 +24,7 @@
     }
 
 
-    
+
     $id = $_GET['id'] ?? '';
 
     if (!empty($id)) {

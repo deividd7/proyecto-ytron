@@ -14,7 +14,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="author" content="David Pintado">    
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> 
-        <link rel="stylesheet" type="text/css" href="css/estilos.css?v=1.6"> <!-- Esto fuerza la actualización del navegador para actualizar los estilos y así evitar problemas con la caché (1.1, 1.2, 1.3 ...) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  <!-- Permite que funcione el menú desplegable del admin -->
+        <link rel="stylesheet" type="text/css" href="css/estilos.css?v=1.7"> <!-- Esto fuerza la actualización del navegador para actualizar los estilos y así evitar problemas con la caché (1.1, 1.2, 1.3 ...) -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Librería externa que transforma los mensajes del navegador el ventanas emergentes -->
     </head>
 
@@ -44,12 +45,23 @@
                             </span>
 
                             <?php if (isset($_SESSION['es_admin']) && $_SESSION['es_admin'] == 1): ?>
-                                <a href="index.php" class="btn btn-warning btn-sm me-2 shadow-sm">Panel de Gestión</a>
-                            <?php else: ?>
-                                <a href="perfil.php" class="btn btn-outline-secondary btn-sm me-2">
-                                    Perfil de <?php echo htmlspecialchars($_SESSION['nombre']); ?>
-                                </a>
-                            <?php endif; ?>
+                                <div class="dropdown d-inline-block me-2">
+                                    <button class="btn btn-warning btn-sm dropdown-toggle shadow-sm" type="button" id="dropdownAdmin" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Panel de Gestión
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownAdmin">
+                                        
+                                        <li><a class="dropdown-item" href="index.php"><i class="bi bi-list-stars"></i> Configurar Planes</a></li>
+                                        <li><a class="dropdown-item" href="lista_planes_usuarios.php"><i class="bi bi-people"></i> Planes Contratados</a></li>
+                                    
+                                    </ul>
+                                </div>
+
+                                <?php else: ?>
+                                    <a href="perfil.php" class="btn btn-outline-secondary btn-sm me-2">
+                                        Perfil de <?php echo htmlspecialchars($_SESSION['nombre']); ?>
+                                    </a>
+                                <?php endif; ?>
 
                             <a href="logout.php" class="btn btn-outline-danger btn-sm">Cerrar Sesión</a>
 
