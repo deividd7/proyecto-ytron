@@ -18,9 +18,10 @@
         $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
 
 
-        //Consulta
+        //Consulta que solo permite el acceso a usuario activos
         //Usamos Sentencias Preparadas para evitar SQL Injection
-        $consulta = "SELECT id, nombre, email, password, admin FROM usuario WHERE email = ?";
+        $consulta = "SELECT id, nombre, email, password, admin FROM usuario WHERE email = ? AND activo = 1";
+        
 
         $stmt = mysqli_prepare($conexion, $consulta);
         mysqli_stmt_bind_param($stmt, "s", $email);
