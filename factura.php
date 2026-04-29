@@ -25,7 +25,12 @@
 
     $factura_id = $_GET['id'];
     $usuario_id = $_SESSION['usuario_id'];
-    $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+    //Para conectar por localhost a la BD
+    //$conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+        
+    //Para conectar a la VM en la que se encuentra alojada la BD
+    $conexion = mysqli_connect("10.10.30.10", "root", "", "ytronhosting");
+
 
     //Muestra los datos de la tabla factura (con una sentencia preparada para evitar inyeccioones SQL)
     $sql_f = "SELECT * FROM factura WHERE id = ? AND usuario_id = ?";

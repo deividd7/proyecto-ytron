@@ -1,5 +1,5 @@
 <?php 
-    include 'cabecera.php'; 
+    session_start();
 
 
     //Eliminamos las etiquetas de apertura y cierre de body y html porque ya se encuentran en la cabecera y el footer
@@ -22,7 +22,12 @@
     }
 
     //conexión con la base de datos
-    $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+    //Para conectar por localhost a la BD
+    //$conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+        
+    //Para conectar a la VM en la que se encuentra alojada la BD
+    $conexion = mysqli_connect("10.10.30.10", "root", "", "ytronhosting");
+
     $usuario_id = $_SESSION['usuario_id'];
     $fecha_vencimiento = date('Y-m-d', strtotime('+1 month'));  //Añadimos una fecha de vencimiento de ejemplo (1 mes en este caso)
 
@@ -44,10 +49,73 @@
         $sql_linea = "INSERT INTO linea (factura_id, concepto, cantidad, precio_ud) VALUES (?, ?, 1, ?)";
         $stmt_l = mysqli_prepare($conexion, $sql_linea);
 
+
+
+
+        //Inicialización de la variable (Fase implementación de Ansible)
+        $primer_plan_id = null;
+
+
         foreach ($_SESSION['carrito'] as $item) {
             mysqli_stmt_bind_param($stmt_l, "isd", $factura_id, $item['nombre'], $item['precio']);
             mysqli_stmt_execute($stmt_l);
+
+            
+            //Guardamos el plan del carrito para el despliegue en Ansible (Fase implementación de Ansible)
+            if ($primer_plan_id === null) {
+                $primer_plan_id = $item['id'];
+            }
+
         }
+
+
+
+
+        
+
+        
+        //Creación del Servidor en la Tabla Servidor en la BD (Fase implementación de Ansible)
+        $nodo_id = 1;
+        
+        //Generamos un UUID único en el servidor
+        $uuid = bin2hex(random_bytes(16));  //Una cadena de 16 dígitos random
+
+        $sql_servidor = "
+            INSERT INTO servidor (uuid, ip, puerto, estado, usuario_id, nodo_id, plan_id)
+            VALUES (?, NULL, NULL, 'provisionando', ?, ?, ?)
+        ";
+        $stmt_s = mysqli_prepare($conexion, $sql_servidor);
+        mysqli_stmt_bind_param($stmt_s, "siii", $uuid, $usuario_id, $nodo_id, $primer_plan_id);
+        mysqli_stmt_execute($stmt_s);
+
+        $servidor_id = mysqli_insert_id($conexion);
+
+
+
+        
+        //Lanzamiento de Ansible sobre Docker (Fase implementación de Ansible)
+        //Ruta hacia el archivo, utilizando WSL en Windows y una dirección hacia el archivo
+        $cmd = "wsl ansible-playbook /mnt/c/xampp/htdocs/AnsibleYtronHosting/PlaybookAnsible.yml -e servidor_id={$servidor_id}";
+
+        exec($cmd, $output, $return_code);
+
+        
+        //Si Ansible falla, NO se cancela la compra
+        if ($return_code !== 0) {
+            mysqli_query(
+                $conexion,
+                "UPDATE servidor SET estado='error' WHERE id = $servidor_id"
+            );
+        } else {
+            mysqli_query(
+                $conexion,
+                "UPDATE servidor SET estado='activo' WHERE id = $servidor_id"
+            );
+        }
+
+
+
+
 
 
         //Si todo es correcto se guardan los cambios
@@ -57,7 +125,7 @@
         $_SESSION['carrito'] = [];
         header("Location: factura.php?id=" . $factura_id . "&compra=exito");
 
-    } catch (mysqli_sql_exception $e) {
+    } catch (Exception $e) {    //MODIFICADO (Fase implementación de Ansible)
         //Si algo falla, se deshace la factura creada
         mysqli_rollback($conexion);
         header("Location: perfil.php?error=compra_fallida");
@@ -69,6 +137,6 @@
 
 
 
-    include 'footer.php'; 
+
 ?>
 

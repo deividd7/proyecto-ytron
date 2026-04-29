@@ -15,7 +15,14 @@
         $pass = $_POST['password'] ?? '';
 
         //Conexión a la BD
-        $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+        //Para conectar por localhost a la BD
+        //$conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+        
+        //Para conectar a la VM en la que se encuentra alojada la BD
+        $conexion = mysqli_connect("10.10.30.10", "root", "", "ytronhosting");
+
+        //Conexión a la BD "en la nube"
+        //$conexion = mysqli_connect("172.31.20.63", "admin", "1234", "proyecto_ytron");
 
 
         //Consulta que solo permite el acceso a usuario activos

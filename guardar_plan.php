@@ -35,7 +35,12 @@
     } 
 
     //conexión con la bd
-    $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+    //Para conectar por localhost a la BD
+    //$conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+        
+    //Para conectar a la VM en la que se encuentra alojada la BD
+    $conexion = mysqli_connect("10.10.30.10", "root", "", "ytronhosting");
+
 
     //Comprobación de la conexión
     if (!$conexion) {

@@ -38,7 +38,12 @@
             exit();
         }
 
-        $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+        //Para conectar por localhost a la BD
+        //$conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+        
+        //Para conectar a la VM en la que se encuentra alojada la BD
+        $conexion = mysqli_connect("10.10.30.10", "root", "", "ytronhosting");
+
 
         //Sentencia preparada para el UPDATE en la bd, con seguridad contra inyecciones SQL
         $sql = "UPDATE plan SET nombre=?, precio=?, ram_mb=?, cpu_pct=? WHERE id=?";

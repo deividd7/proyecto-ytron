@@ -13,7 +13,12 @@
     }
 
     //Conexión con la base de datos, para validar el precio real y evitar manipulaciones en el cliente (evitar que el clinte pueda modificar el precio del plan desde el formulario del html)
-    $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+    //Para conectar por localhost a la BD
+    //$conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+        
+    //Para conectar a la VM en la que se encuentra alojada la BD
+    $conexion = mysqli_connect("10.10.30.10", "root", "", "ytronhosting");
+
 
 
     //Añadir planes al "carrito" en la sesión

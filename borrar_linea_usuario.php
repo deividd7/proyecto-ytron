@@ -22,7 +22,11 @@
     $id = $_GET['id'] ?? '';
 
     if (!empty($id)) {
-        $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+        //Para conectar por localhost a la BD
+        //$conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+        
+        //Para conectar a la VM en la que se encuentra alojada la BD
+        $conexion = mysqli_connect("10.10.30.10", "root", "", "ytronhosting");
 
         //Verificamos conexión
         if (!$conexion) {

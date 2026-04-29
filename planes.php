@@ -2,7 +2,11 @@
     include 'cabecera.php'; 
 
     //Conexión a ytronhosting
-    $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+    //Para conectar por localhost a la BD
+    //$conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+        
+    //Para conectar a la VM en la que se encuentra alojada la BD
+    $conexion = mysqli_connect("10.10.30.10", "root", "", "ytronhosting");
 
     //Preparar la sentencia, evitando inyecciones SQL
     $sql = "SELECT id, nombre, precio, ram_mb, cpu_pct FROM plan";

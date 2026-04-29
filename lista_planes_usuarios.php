@@ -12,8 +12,13 @@
         exit();
     }
 
-    $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+    //Para conectar por localhost a la BD
+    //$conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+        
+    //Para conectar a la VM en la que se encuentra alojada la BD
+    $conexion = mysqli_connect("10.10.30.10", "root", "", "ytronhosting");
 
+    
     //Consulta para obtener qué usuario tiene qué plan a través de las líneas de factura (al ser una consulta estática, no hay puerta de entrada para un atacante, imposibilitando así inyecciones SQL)
     $sql = "SELECT u.nombre as usuario, u.email, l.id as linea_id, l.concepto as plan, f.id as factura_id, f.fecha_vencimiento 
             FROM usuario u 

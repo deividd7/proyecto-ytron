@@ -10,7 +10,12 @@
         $pass = $_POST['password'] ?? '';
 
         if (!empty(trim($email)) && !empty(trim($pass))) {
-            $conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+            //Para conectar por localhost a la BD
+            //$conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+        
+            //Para conectar a la VM en la que se encuentra alojada la BD
+            $conexion = mysqli_connect("10.10.30.10", "root", "", "ytronhosting");
+
 
             //Cifrado de la contraseña: Ciframos la contraseña (creamos la huella, el hash)
             $pass_segura = password_hash($pass, PASSWORD_DEFAULT);
