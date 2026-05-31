@@ -1,20 +1,22 @@
 <?php 
+/**
+ * Vista para editar un plan.
+ * Solo accesible para administradores.
+ */
 
-    //A esta página unicamente tendrá acceso el ADMIN (porque es una pagina de edición)
-
-    include 'cabecera.php'; 
+    // solo admin edita planes    include 'cabecera.php'; 
     $id = $_GET['id'] ?? '';
 
     
 
-    //Método de doble seguridad, primer bloqueo a usuarios no logueados y segundo bloqueo a usuarios sin permisos admin
-    //Inicio de sesión del usuario, si no ha iniciado sesión, te redirige a login. Impide que usuarios no logueados puedan acceder
+    // valida sesion de admin
+    // verifica usuario logueado
     if (!isset($_SESSION['usuario'])) {
         header("Location: login.php");
         exit();
     }
 
-    //protección de la página, si el usuario no es admin, se le redirige a home.php
+    // redirige si no admin
     if (!isset($_SESSION['es_admin']) || $_SESSION['es_admin'] != 1) {
         header("Location: home.php?error=acceso_denegado");
         exit();
@@ -27,14 +29,13 @@
         exit();
     }
 
-    //Para conectar por localhost a la BD
-    //$conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+    // conecta base de datos
         
-    //Para conectar a la VM en la que se encuentra alojada la BD
-    $conexion = mysqli_connect("10.10.30.10", "root", "", "ytronhosting");
+    require_once __DIR__ . '/db_conexion.php';
+    $conexion = getDbConnection();
 
     
-    //Obtenemos los datos actuales del plan
+    // obtiene datos actuales plan
     $sql = "SELECT * FROM plan WHERE id = ?";
     $stmt = mysqli_prepare($conexion, $sql);
     mysqli_stmt_bind_param($stmt, "i", $id);
@@ -53,7 +54,7 @@
 <div class="container mt-4">
     <h2>Editar Plan: <?php echo htmlspecialchars($plan['nombre']); ?></h2>
     
-    <form action="actualizar_plan.php" method="POST" style="max-width: 500px;">
+    <form action="actualizar_plan.php" method="POST" class="yt-form-container">
         <input type="hidden" name="id" value="<?php echo $plan['id']; ?>">
 
         <div class="mb-3">

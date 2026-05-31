@@ -1,31 +1,21 @@
 <?php
-
-    //A esta página unicamente tendrá acceso el ADMIN (porque es una pagina de edición)
-
+/**
+ * Controlador para la actualización de un plan.
+ * Solo accesible para administradores desde el panel.
+ */
+    // solo admin puede editar
     session_start();
     if (!isset($_SESSION['usuario'])) {
         header("Location: login.php");
         exit();
     }
 
-
-
-    //Método de doble seguridad, primer bloqueo a usuarios no logueados y segundo bloqueo a usuarios sin permisos admin
-    //Inicio de sesión del usuario, si no ha iniciado sesión, te redirige a login. Impide que usuarios no logueados puedan acceder
-    session_start();
-    if (!isset($_SESSION['usuario'])) {
-        header("Location: login.php");
-        exit();
-    }
-
-    //protección de la página, si el usuario no es admin, se le redirige a home.php
+    // bloquea usuarios no admin
     if (!isset($_SESSION['es_admin']) || $_SESSION['es_admin'] != 1) {
         header("Location: home.php?error=acceso_denegado");
         exit();
     }
 
-
-    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id     = $_POST['id'] ?? '';
         $nombre = $_POST['nombre'] ?? '';
@@ -38,16 +28,12 @@
             exit();
         }
 
-        //Para conectar por localhost a la BD
-        //$conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
-        
-        //Para conectar a la VM en la que se encuentra alojada la BD
-        $conexion = mysqli_connect("10.10.30.10", "root", "", "ytronhosting");
+        // conecta a base datos
+        require_once __DIR__ . '/db_conexion.php';
+        $conexion = getDbConnection();
 
-
-        //Sentencia preparada para el UPDATE en la bd, con seguridad contra inyecciones SQL
+        // actualiza plan seguro sql
         $sql = "UPDATE plan SET nombre=?, precio=?, ram_mb=?, cpu_pct=? WHERE id=?";
-
         $stmt = mysqli_prepare($conexion, $sql);
 
         mysqli_stmt_bind_param($stmt, "sddii", $nombre, $precio, $ram, $cpu, $id);

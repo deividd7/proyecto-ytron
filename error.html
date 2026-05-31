@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ytron Hosting — Enlace Temporalmente Desconectado</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background-color: #0a0a0f;
+    background-image: radial-gradient(circle at 50% 0%, rgba(0, 212, 255, 0.08), transparent 50%);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 229, 160, 0.03) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 3rem;
+    background: rgba(18, 18, 28, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    max-width: 500px;
+    width: 90%;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  .logo svg { width: 32px; height: 32px; }
+  .logo-text { font-size: 1.5rem; font-weight: 800; letter-spacing: 1px; }
+  
+  .code { 
+    font-size: 6rem; 
+    font-weight: 800; 
+    line-height: 1;
+    background: linear-gradient(135deg, #00d4ff, #00e5a0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.2));
+  }
+  .title { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #e8eaf6; }
+  .msg { font-size: 0.95rem; color: #a0a4b8; margin-bottom: 2.5rem; line-height: 1.6; }
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background: transparent;
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    color: #00d4ff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+  }
+  .btn:hover { 
+    background: rgba(0, 212, 255, 0.1); 
+    border-color: #00d4ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
+  }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="container">
+  <div class="logo">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2L2 22H22L12 2Z" stroke="url(#paint0_linear)" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M12 8L6 19H18L12 8Z" fill="url(#paint1_linear)"/>
+      <defs>
+        <linearGradient id="paint0_linear" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#00D4FF"/>
+          <stop offset="1" stop-color="#00E5A0"/>
+        </linearGradient>
+        <linearGradient id="paint1_linear" x1="12" y1="8" x2="12" y2="19" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#00D4FF" stop-opacity="0.2"/>
+          <stop offset="1" stop-color="#00E5A0" stop-opacity="0.05"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <span class="logo-text">YTRON</span>
+  </div>
+  <div class="code">503</div>
+  <div class="title">Servicio Temporalmente Interrumpido</div>
+  <p class="msg">Nuestros sistemas están realizando tareas de mantenimiento automatizado o la red se encuentra en un ciclo de rebalanceo.<br>Estaremos operativos de nuevo en breves instantes.</p>
+  <a href="/" class="btn">Reintentar Conexión</a>
+</div>
+</body>
+</html>

@@ -1,10 +1,15 @@
 <?php
+/**
+ * Cierre de sesión.
+ * Destruye la sesión del usuario activo.
+ */
 
-    //Página donde el usuario cierra su sesión y por lo tanto de libre acceso
+    // pagina cierre sesion libre
 
-    //Lo añadimos para cerrar la sesión
+    // inicializa y destruye sesion
+    require_once __DIR__ . '/sesion_db.php';
     session_start();
-    session_destroy();      //Se destruye y por lo tanto, cierra la sesión
-    header("Location: home.php");    //Al cerrar sesión nos redirigirá por defecto a home.php
+    session_destroy();      // destruye sesion activa completamente
+    header("Location: home.php");    // redirige a la portada
     exit();
 ?>

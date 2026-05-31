@@ -1,13 +1,16 @@
 <?php 
-    // Página de error
-    // Usamos la cabecera para mantener la sesión y estilos
+/**
+ * Página genérica de errores.
+ * Muestra mensajes de error formateados.
+ */
+    // incluye cabecera sesion estilos
     include 'cabecera.php';
         
-    // Extraemos el mensaje de error de la URL
+    // obtiene mensaje de url
     $error_msg = $_GET['mensaje'] ?? 'Error desconocido'; 
 ?>
 
-<!-- Esta página es de libre acceso para usuarios no logueados -->
+<!-- pagina de acceso libre -->
 
 
 <div class="alert alert-danger mt-5">

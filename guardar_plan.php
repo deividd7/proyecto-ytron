@@ -1,48 +1,46 @@
 <?php
+/**
+ * Procesador para guardar planes.
+ * Solo accesible para administradores.
+ */
 
-    //A esta página unicamente tendrá acceso el ADMIN (porque es una pagina de edición)
-
-    //Guardar en la base de datos los nuevos datos del nuevo plan (nuevo_plan.php) en la bd
-
-    //En esta página hemos eliminado por completo el HTML, ya que el papel que realizará sserá procesar datos y redirigirlos, en este caso el HTML provoca un error en el funcionamiento
+    // archivo sin salida html
 
 
-    //Método de doble seguridad, primer bloqueo a usuarios no logueados y segundo bloqueo a usuarios sin permisos admin
-    //Inicio de sesión del usuario, si no ha iniciado sesión, te redirige a login. Impide que usuarios no logueados puedan acceder
+    // valida sesion de admin
+    // verifica usuario logueado
     session_start();
     if (!isset($_SESSION['usuario'])) {
         header("Location: login.php");
         exit();
     }
 
-    //protección de la página, si el usuario no es admin, se le redirige a home.php
+    // redirige si no admin
     if (!isset($_SESSION['es_admin']) || $_SESSION['es_admin'] != 1) {
         header("Location: home.php?error=acceso_denegado");
         exit();
     }
 
-    //Recogida de datos del formulario mediante POST
+    // recoge datos por post
     $nombre = $_POST['nombre'] ?? '';
     $precio = $_POST['precio'] ?? '';
     $ram    = $_POST['ram_mb'] ?? '';
     $cpu    = $_POST['cpu_pct'] ?? '';
 
-    //Validación, Comprobar que ningún campo esté vacío
+    // valida campos vacios
     if (empty(trim($nombre)) || empty(trim($precio)) || empty(trim($ram)) || empty(trim($cpu))) {
         $mensaje = "Los campos no pueden estar vacíos";
         header("Location: error.php?mensaje=" . urlencode($mensaje));
         exit();
     } 
 
-    //conexión con la bd
-    //Para conectar por localhost a la BD
-    //$conexion = mysqli_connect("localhost", "root", "", "ytronhosting");
+    // conecta base de datos
         
-    //Para conectar a la VM en la que se encuentra alojada la BD
-    $conexion = mysqli_connect("10.10.30.10", "root", "", "ytronhosting");
+    require_once __DIR__ . '/db_conexion.php';
+    $conexion = getDbConnection();
 
 
-    //Comprobación de la conexión
+    // verifica conexion valida
     if (!$conexion) {
         $mensaje = "Error al intentar conectarse con la Base de datos: YtronHosting";
         header("Location: error.php?mensaje=" . urlencode($mensaje));
@@ -50,7 +48,7 @@
     }
 
 
-    //sentencia prepada para insertar datos en la tabla plan, con seguridad para evitar inyecciones SQL
+    // prepara query anti inyeccion
     $sql = "INSERT INTO plan (nombre, precio, ram_mb, cpu_pct) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($conexion, $sql);
 

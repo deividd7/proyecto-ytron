@@ -1,16 +1,20 @@
 <?php 
+/**
+ * Formulario para crear un plan.
+ * Accesible exclusivamente por administradores.
+ */
 
     include 'cabecera.php'; 
     
     
-    //Método de doble seguridad, primer bloqueo a usuarios no logueados y segundo bloqueo a usuarios sin permisos admin
-    //Inicio de sesión del usuario, si no ha iniciado sesión, te redirige a login. Impide que usuarios no logueados puedan acceder
+    // valida sesion de admin
+    // verifica usuario logueado
     if (!isset($_SESSION['usuario'])) {
         header("Location: login.php");
         exit();
     }
 
-    //protección de la página, si el usuario no es admin, se le redirige a home.php
+    // redirige si no admin
     if (!isset($_SESSION['es_admin']) || $_SESSION['es_admin'] != 1) {
         header("Location: home.php?error=acceso_denegado");
         exit();
@@ -18,7 +22,7 @@
 
 ?>
 
-<!-- A esta página unicamente tendrá acceso el ADMIN -->
+<!-- acceso exclusivo para admins -->
 
 
 
@@ -29,7 +33,7 @@
 
     <h2>Crear Nuevo Plan</h2>
 
-    <form action="guardar_plan.php" method="POST" class="mt-4" style="max-width: 500px;">
+    <form action="guardar_plan.php" method="POST" class="mt-4 yt-form-container">
         
         <div class="mb-3">
             <label class="form-label">Nombre del Plan:</label>
